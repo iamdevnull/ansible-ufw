@@ -1,0 +1,49 @@
+---
+- name: check if docker package is installed
+  package:
+    name: "docker-ce"
+    state: present
+  check_mode: true
+  register: package_check
+  ignore_errors: yes
+
+- name: get docker service status
+  shell: 'systemctl is-active docker'
+  register: docker_service_status
+  ignore_errors: yes
+  changed_when: false
+  when: package_check is succeeded
+
+- name: download ufw-docker script
+  get_url:
+    url: https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+    dest: /usr/local/bin/ufw-docker
+    mode: '0750'
+
+- name: install special rules for ufw-docker
+  template:
+    src: "after.rules.j2"
+    dest: "/etc/ufw/after.rules"
+  register: after_rules
+  when: package_check is succeeded
+
+- name: restart service ufw
+  systemd:
+    state: restarted
+    name: ufw
+  when: after_rules.changed
+
+- name: add service file of ufw-docker-automated to systemd
+  template:
+    src: "ufw-docker-automated.service.j2"
+    dest: "/etc/systemd/system/ufw-docker-automated.service"
+  when: package_check is succeeded
+
+- name: start service ufw-docker-automated, also issue daemon-reload to pick up config changes
+  systemd:
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+    name: ufw-docker-automated
+  when: docker_service_status.rc == 0
+  changed_when: false

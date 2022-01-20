@@ -1,0 +1,13 @@
+[Unit]
+Description=Ufw docker automated - # {{ ansible_managed }}
+Documentation=https://github.com/shinebayar-g/ufw-docker-automated
+After=network-online.target ufw.service containerd.service
+Wants=network-online.target
+Requires=ufw.service
+
+[Service]
+ExecStart=/usr/local/bin/ufw-docker-automated
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
