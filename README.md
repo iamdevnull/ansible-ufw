@@ -85,7 +85,7 @@ services:
   web:
     image: nginx:alpine
     ports:
-      - "80:80" # host-port-binding is mandatory for ufw autodiscovery
+      - "80:80" # host-port-binding is mandatory for ufw autodiscovery # both ports must be identical
     labels:
       UFW_MANAGED: 'TRUE' # allow external/public access to port 80 of the host/container 
 
