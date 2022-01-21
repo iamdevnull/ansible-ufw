@@ -47,11 +47,11 @@ This is an example playbook:
         to_port: '53'
 
   pre_tasks:
-  - name: reset ufw
-    community.general.ufw:
-      state: reset
-    when: ufw_reset and not ufw_enabled | bool
-    register: ufw_reset_exitcode
+    - name: reset ufw
+      community.general.ufw:
+        state: reset
+      when: ufw_reset and not ufw_enabled | bool
+      register: ufw_reset_exitcode
 
   roles:
     - ansible-ufw
@@ -92,7 +92,6 @@ services:
 networks:
   webnet:
 ```
-
 
 ## License
 Copyright (c) We Are Interactive under the MIT license.
