@@ -31,9 +31,11 @@
 COMMIT
 # BEGIN UFW AND DOCKER
 *filter
+:ufw-user-input - [0:0]
 :ufw-user-forward - [0:0]
 :ufw-docker-logging-deny - [0:0]
 :DOCKER-USER - [0:0]
+-A DOCKER-USER -j ufw-user-input
 -A DOCKER-USER -j ufw-user-forward
 
 -A DOCKER-USER -j RETURN -s 10.0.0.0/8
