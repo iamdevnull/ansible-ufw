@@ -83,11 +83,12 @@ This is an example playbook:
 version: "2.4"
 services:
   web:
-    image: nginx:alpine
+    image: dummy:latest
     ports:
       - "HOSTPORT:CONTAINERPORT" # host-port-binding is mandatory for ufw autodiscovery
+      - "HOSTPORT:CONTAINERPORT" # host-port-binding is mandatory for ufw autodiscovery
     labels:
-    UFW_MANAGED: 'TRUE' # allow external/public access to the published port of the container
+    UFW_MANAGED: 'TRUE' # allow external/public access to the published ports of the container
 
 networks:
   webnet:
