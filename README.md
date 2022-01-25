@@ -85,8 +85,12 @@ services:
   web:
     image: dummy:latest
     ports:
-      - "HOSTPORT:CONTAINERPORT" # host-port-binding is mandatory for ufw autodiscovery
-      - "HOSTPORT:CONTAINERPORT" # host-port-binding is mandatory for ufw autodiscovery
+      # host-port-binding is mandatory for ufw autodiscovery
+      # attention, only the HOSTPORT will be opened in the firewall for external access. not the CONTAINERPORT.
+      # the CONTAINERPORT is only used by the ufw autodiscovery to create an allow rule inside the "Chain ufw-user-forward" of the iptables filter table.
+      # the forward rule in combination with the dnat rule inside the "Chain DOCKER" of the iptables nat table enables the unblocking of the port and a working routing.
+      - "HOSTPORT:CONTAINERPORT"
+      - "HOSTPORT:CONTAINERPORT"
     labels:
     UFW_MANAGED: 'TRUE' # allow external/public access to the published ports of the container
 
