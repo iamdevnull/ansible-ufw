@@ -1,0 +1,19 @@
+---
+
+- name: install special rules for sshguard
+  template:
+    src: "before.rules.j2"
+    dest: "/etc/ufw/before.rules"
+  register: before_rules
+
+- name: restart service ufw
+  systemd:
+    state: restarted
+    name: ufw
+  when: before_rules.changed
+
+- name: restart service sshguard
+  systemd:
+    state: restarted
+    name: sshguard
+  when: before_rules.changed

@@ -10,7 +10,6 @@
     src: "after.rules.j2"
     dest: "/etc/ufw/after.rules"
   register: after_rules
-  when: package_check is succeeded
 
 - name: restart service ufw
   systemd:
@@ -30,7 +29,6 @@
   template:
     src: "ufw-docker-automated.service.j2"
     dest: "/etc/systemd/system/ufw-docker-automated.service"
-  when: package_check is succeeded
 
 - name: start service ufw-docker-automated, also issue daemon-reload to pick up config changes
   systemd:
