@@ -14,7 +14,6 @@
     interface_in: "{{ item.interface_in | default(omit) }}"
     interface_out: "{{ item.interface_out | default(omit) }}"
     log: "{{ item.log | default(omit) }}"
-    logging: "{{ item.logging | default(omit) }}"
     name: "{{ item.name | default(omit) }}"
     proto: "{{ item.proto | default(omit) }}"
     route: "{{ item.route | default(omit) }}"
@@ -22,3 +21,8 @@
     to_ip: "{{ item.to_ip | default(omit) }}"
     to_port: "{{ item.to_port | default(omit) }}"
   with_items: "{{ ufw_rules }}"
+
+- name: Applying logging
+  community.general.ufw:
+    logging: "{{ ufw_logging | default(omit) }}"
+  changed_when: false

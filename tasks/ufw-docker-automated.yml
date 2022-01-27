@@ -11,6 +11,13 @@
     dest: "/etc/ufw/after.rules"
   register: after_rules
 
+- name: add customization script to cleanup DOCKER-USER chain else ufw cannot be enabled after disabling
+  template:
+    src: "before.init.j2"
+    dest: "/etc/ufw/before.init"
+    mode: '0750'
+  register: before_init
+
 - name: restart service ufw
   systemd:
     state: restarted

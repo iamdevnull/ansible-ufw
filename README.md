@@ -21,6 +21,7 @@ This is an example playbook:
   vars:
     ufw_reset: false
     ufw_enabled: false
+    ufw_logging: low
     ufw_manage_config: true
     ufw_config:
       IPV6: "no"
@@ -32,7 +33,6 @@ This is an example playbook:
       IPT_SYSCTL: /etc/ufw/sysctl.conf
       IPT_MODULES: ""
     ufw_rules:
-      - logging: "full"
       - rule: allow
         name: OpenSSH
       - rule: allow
