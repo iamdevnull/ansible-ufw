@@ -1,33 +1,31 @@
 ---
 
-- name: check if docker package is installed
-  package:
-    name: "docker-ce"
-    state: present
-  check_mode: true
-  register: package_check_docker
+- name: "check if docker is installed"
+  shell: 'dpkg -s docker-ce'
   ignore_errors: yes
+  changed_when: false
+  failed_when: false
+  register: package_check_docker
 
 - name: get docker service status
   shell: 'systemctl is-active docker'
   register: docker_service_status
   ignore_errors: yes
   changed_when: false
-  when: package_check_docker is succeeded
+  when: package_check_docker.rc == 0
 
 - name: get docker version
   shell: "docker version --format '{{ '{{' }}.Server.Version{{ '}}' }}'" 
   register: docker_version
   changed_when: false
-  when: package_check_docker is succeeded
+  when: package_check_docker.rc == 0
 
-- name: check if sshguard package is installed
-  package:
-    name: "sshguard"
-    state: present
-  check_mode: true
-  register: package_check_sshguard
+- name: "check if docker is installed"
+  shell: 'dpkg -s sshguard'
   ignore_errors: yes
+  changed_when: false
+  failed_when: false
+  register: package_check_sshguard
 
 - import_tasks: install.yml
 
@@ -38,7 +36,7 @@
 - import_tasks: manage.yml
 
 - import_tasks: ufw-docker-automated.yml
-  when: package_check_docker is succeeded and docker_version.stdout is version('20.10', '>=')
+  when: package_check_docker.rc == 0 and docker_version.stdout is version('20.10', '>=')
 
 - import_tasks: sshguard.yml
-  when: package_check_sshguard is succeeded
+  when: package_check_sshguard.rc == 0
