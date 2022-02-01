@@ -1,0 +1,4 @@
+[submodule "files/ufw-docker"]
+	path = files/ufw-docker
+	url = https://github.com/iamdevnull/ufw-docker.git
+	branch = master
