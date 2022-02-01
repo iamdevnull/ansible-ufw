@@ -1,9 +1,12 @@
 ---
-- name: download ufw-docker script
-  get_url:
-    url: https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
+
+- name: copy ufw-docker-automated binary
+  copy:
+    src: ../files/ufw-docker/ufw-docker
     dest: /usr/local/bin/ufw-docker
-    mode: '0750'
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: install special rules for ufw-docker
   template:
