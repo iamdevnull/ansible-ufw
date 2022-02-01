@@ -20,7 +20,7 @@
   changed_when: false
   when: package_check_docker.rc == 0
 
-- name: "check if docker is installed"
+- name: "check if sshguard is installed"
   shell: 'dpkg -s sshguard'
   ignore_errors: yes
   changed_when: false
