@@ -92,7 +92,7 @@ services:
       - "HOSTPORT:CONTAINERPORT"
       - "HOSTPORT:CONTAINERPORT"
     labels:
-    UFW_MANAGED: 'TRUE' # allow external/public access to the published ports of the container
+      UFW_MANAGED: 'TRUE' # allow external/public access to the published ports of the container
 
 networks:
   webnet:
