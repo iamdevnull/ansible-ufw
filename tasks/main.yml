@@ -7,14 +7,14 @@
   failed_when: false
   register: package_check_docker
 
-- name: get docker service status
+- name: "get docker service status"
   shell: 'systemctl is-active docker'
   register: docker_service_status
   ignore_errors: yes
   changed_when: false
   when: package_check_docker.rc == 0
 
-- name: get docker version
+- name: "get docker version"
   shell: "docker version --format '{{ '{{' }}.Server.Version{{ '}}' }}'" 
   register: docker_version
   changed_when: false
